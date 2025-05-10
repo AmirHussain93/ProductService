@@ -1,7 +1,6 @@
 package com.example.productservice.controllers;
 
 import com.example.productservice.dtos.CreateFakeStoreRequestDto;
-import com.example.productservice.dtos.ErrorDto;
 import com.example.productservice.dtos.ProductResponseDto;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
@@ -57,6 +56,17 @@ public class ProductController {
         return new ResponseEntity<>(ProductResponseDto.from(product), HttpStatus.CREATED);
     }
 
-
+    @PutMapping("/products/{id}")
+    public ProductResponseDto replaceProduct(@PathVariable("id") long id, @RequestBody CreateFakeStoreRequestDto createFakeStoreRequestDto) throws ProductNotFoundException {
+        Product product =  productService.replaceProduct(
+                id,
+                createFakeStoreRequestDto.getName(),
+                createFakeStoreRequestDto.getPrice(),
+                createFakeStoreRequestDto.getDescription(),
+                createFakeStoreRequestDto.getImageUrl(),
+                createFakeStoreRequestDto.getCategory()
+        );
+        return ProductResponseDto.from(product);
+    }
 
 }

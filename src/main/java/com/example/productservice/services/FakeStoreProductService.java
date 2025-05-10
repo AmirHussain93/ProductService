@@ -4,6 +4,7 @@ import com.example.productservice.dtos.FakeStoreProductResponseDto;
 import com.example.productservice.dtos.FakeStoreRequestDto;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -61,6 +62,34 @@ public class FakeStoreProductService implements IProductService {
         );
 
         return fakeStoreProductResponseDto.toProduct();
+    }
+
+    @Override
+    public Product replaceProduct(long id, String name, double price, String description, String imageUrl, String category) throws ProductNotFoundException {
+
+        FakeStoreRequestDto updateFakeStoreDto = createDtoFromParams(name, price, description, imageUrl, category);
+
+       // We will not be using put as this returns void
+//        restTemplate.put(
+//                "https://fakestoreapi.com/products/" + id,
+//                fakeStoreRequestDto,
+//                FakeStoreProductResponseDto.class
+//        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<FakeStoreRequestDto> requestEntity = new HttpEntity<>(updateFakeStoreDto, headers);
+
+        ResponseEntity<FakeStoreProductResponseDto> responseEntity = restTemplate.exchange(
+                "https://fakestoreapi.com/products/" + id,
+                HttpMethod.PUT,
+                requestEntity,
+                FakeStoreProductResponseDto.class
+        );
+
+
+        return responseEntity.getBody().toProduct();
     }
 
     private FakeStoreRequestDto createDtoFromParams(String name, double price, String description, String imageUrl, String category) {
