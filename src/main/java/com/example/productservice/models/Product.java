@@ -1,15 +1,18 @@
 package com.example.productservice.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Product {
-    private long id;
-    private String name;
+@Entity
+public class Product extends Base {
     private String description;
     private double price;
     private String imageUrl;
+
+    @ManyToOne
     private Category category;
 }
