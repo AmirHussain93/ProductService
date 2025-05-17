@@ -5,6 +5,7 @@ import com.example.productservice.dtos.ProductResponseDto;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import com.example.productservice.services.IProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,9 @@ public class ProductController {
 
     IProductService productService;
 
-    public ProductController(IProductService productService) {
+    public ProductController(
+           @Qualifier("productDbService") IProductService productService
+    ) {
         this.productService = productService;
     }
 
