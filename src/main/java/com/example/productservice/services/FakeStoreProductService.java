@@ -92,6 +92,11 @@ public class FakeStoreProductService implements IProductService {
         return responseEntity.getBody().toProduct();
     }
 
+    @Override
+    public List<Product> getProductsByCategory(String categoryName) {
+        return List.of();
+    }
+
     private FakeStoreRequestDto createDtoFromParams(String name, double price, String description, String imageUrl, String category) {
         FakeStoreRequestDto fakeStoreRequestDto = new FakeStoreRequestDto();
         fakeStoreRequestDto.setTitle(name);

@@ -1,5 +1,6 @@
 package com.example.productservice.services;
 
+import com.example.productservice.exceptions.CategoryNotFoundException;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
 
@@ -10,4 +11,5 @@ public interface IProductService {
     List<Product> getAllProducts();
     Product createProduct(String name, double price, String description, String imageUrl, String category);
     Product replaceProduct(long id, String name, double price, String description, String imageUrl, String category) throws ProductNotFoundException;
+    List<Product> getProductsByCategory(String categoryName) throws CategoryNotFoundException;
 }

@@ -2,6 +2,7 @@ package com.example.productservice.controllers;
 
 import com.example.productservice.dtos.CreateFakeStoreRequestDto;
 import com.example.productservice.dtos.ProductResponseDto;
+import com.example.productservice.exceptions.CategoryNotFoundException;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Product;
 import com.example.productservice.services.IProductService;
@@ -70,6 +71,17 @@ public class ProductController {
                 createFakeStoreRequestDto.getCategory()
         );
         return ProductResponseDto.from(product);
+    }
+
+    @GetMapping("/products/category/{categoryName}")
+    public List<ProductResponseDto> getProductsByCategory(@PathVariable("categoryName") String categoryName) throws CategoryNotFoundException {
+        List<Product> products = productService.getProductsByCategory(categoryName);
+        List<ProductResponseDto> productResponseDtos = new ArrayList<>();
+        for (Product product : products) {
+            ProductResponseDto productResponseDto = ProductResponseDto.from(product);
+            productResponseDtos.add(productResponseDto);
+        }
+        return productResponseDtos;
     }
 
 }

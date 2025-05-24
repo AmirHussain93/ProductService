@@ -1,5 +1,6 @@
 package com.example.productservice.services;
 
+import com.example.productservice.exceptions.CategoryNotFoundException;
 import com.example.productservice.exceptions.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
@@ -55,6 +56,20 @@ public class ProductDbService implements IProductService {
         buildProduct(product, name, price, description, imageUrl, category);
 
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(String categoryName) throws CategoryNotFoundException{
+
+        Optional<Category> categoryOptional = categoryRepository.findByName(categoryName);
+
+        if(categoryOptional.isEmpty()) {
+            throw new CategoryNotFoundException("Category with name " + categoryName + " not found");
+        }
+
+//        return productRepository.findByCategory_Name(categoryOptional.get().getName());
+//        return productRepository.getProductByCategoryName(categoryOptional.get().getName());
+          return productRepository.getProductsByCategoryNameNative(categoryOptional.get().getName());
     }
 
     private void buildProduct(Product product, String name, double price, String description, String imageUrl, String category) {

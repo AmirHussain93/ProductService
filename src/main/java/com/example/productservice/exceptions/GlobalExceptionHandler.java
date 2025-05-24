@@ -25,4 +25,13 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleCategoryNotFoundException(Exception e) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setStatus("Failure");
+        errorDto.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
 }
