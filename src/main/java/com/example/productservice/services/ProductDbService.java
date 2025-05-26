@@ -24,7 +24,7 @@ public class ProductDbService implements IProductService {
 
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
-
+//        getProductsAndCategories(id);
        Optional<Product> productOptional = productRepository.findById(id);
 
         if (productOptional.isEmpty()) {
@@ -94,4 +94,28 @@ public class ProductDbService implements IProductService {
         newCategory.setName(categoryName);
         return categoryRepository.save(newCategory);
     }
+    private void getProductsAndCategories(long id) throws ProductNotFoundException
+    {
+//        Optional<Product> productOptional = productRepository.findById(id);
+//
+//        if(productOptional.isEmpty())
+//        {
+//            throw new ProductNotFoundException("Product with id " + id + " not found");
+//        }
+//
+//        Product product = productOptional.get();
+//        System.out.println(product.getName());
+//        System.out.println(productOptional.get().getCategory().getName());
+//        System.out.println("Dummy line");
+        List<Category> categories = categoryRepository.getCategoriesUsingJoinFetch();
+        System.out.println("Fetching categories with size " + categories.size());
+        for(Category category : categories)
+        {
+            System.out.println("Category " + category.getName() + " has " + category.getProducts().size() + " products");
+        }
+
+        System.out.println("Dummy Line");
+
+    }
+
 }
