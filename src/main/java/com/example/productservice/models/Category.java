@@ -1,5 +1,6 @@
 package com.example.productservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -17,5 +18,7 @@ public class Category extends Base {
 
     @OneToMany(mappedBy = "category")
     @Fetch(FetchMode.SUBSELECT)
+
+    @JsonIgnore
     List<Product> products;
 }
